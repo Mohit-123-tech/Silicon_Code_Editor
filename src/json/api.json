@@ -1,0 +1,23 @@
+{
+    "AppName": "Hackers_Code_Editor",
+    "Version": "2021.4",
+    "Path": "/home/kali/Desktop/",
+    "FontColor": "lime",
+    "Background": "black",
+    "Resizable": "True",
+    "Title": "Silicon Programmer",
+    "Font": "hack",
+    "FontSize": 12,
+    "developerData": {
+        "Name": "maikal Shivankar",
+        "Age": "16",
+        "School": "Abhinandan High School",
+        "Locetion": "India, Maharathra",
+        "Email": "codexpro061@gmail.com",
+        "comName": "Silicon Brains",
+        "TeamName": "Silicon Programmers (Linux)"
+    },
+    "Terminal": "qterminal"
+}
+
+
