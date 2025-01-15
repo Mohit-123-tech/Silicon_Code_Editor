@@ -9,12 +9,12 @@
     "Font": "hack",
     "FontSize": 12,
     "developerData": {
-        "Name": "maikal Shivankar",
+        "Name": "Mohit Shivankar",
         "Age": "16",
         "School": "Abhinandan High School",
         "Locetion": "India, Maharathra",
         "Email": "zoroxpro@proton.me",
-        "comName": "Silicon Brains",
+        "companyName": "Silicon Brains",
         "TeamName": "Silicon Programmers (Linux)"
     },
     "Terminal": "qterminal"
