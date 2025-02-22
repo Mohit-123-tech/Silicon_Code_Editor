@@ -1,50 +1,41 @@
 from tkinter import *
 from modules.Apprunner import Apprun, CodeRunner
-import os
-import json
+from colorama import Fore
+from os import system
+from json import load
 import datetime
 import sqlite3
-import random
+from random import sample
+
+# Connect With apion File
+try:
+    api = load(open(file="json/api.json"))
+    print("json File Connected")
+except(Exception):
+    print(Fore.RED, "File Not Found", Fore.WHITE)
+
+# json Odjects
+FontColor = api["FontColor"]
+Background = api["Background"]
+Resizable = api["Resizable"]
+Title = api["Title"]
+Font = api["Font"]
+FontSize = api["FontSize"]
+Path = api["Path"]
+Date = datetime.date.today()
+Cli = api["Terminal"]
+UserData = api["developerData"]
+version = api["Version"]
 
 # Connect With Database
 try:
-    global c
-    con = sqlite3.connect("src/database/Appdata.db")
+    con = sqlite3.connect(Path[0])
     c = con.cursor()
     print("Connection Sucsses Fully")
 except(Exception):
-    try:
-        con = sqlite3.connect("database/Appdata.db")
-        c = con.cursor()
-        print("Connection Sucsses Fully")
-    except(Exception):
-        print("Connection Feiled")
+    print(Fore.RED, "Connection Feiled", Fore.WHITE)
 
-# Connect With Json File
-try:
-    data = open(file="src/json/api.json")
-    js = json.load(data)
-    print("Json File Connected")
-except(Exception):
-    try:
-        data = open(file="json/api.json")
-        js = json.load(data)
-        print("Json File Connected")
-    except(Exception):
-        print("File Not Found")
 
-# Json Odjects
-FontColor = js["FontColor"]
-Background = js["Background"]
-Resizable = js["Resizable"]
-Title = js["Title"]
-Font = js["Font"]
-FontSize = js["FontSize"]
-Path = js["Path"]
-Date = datetime.date.today()
-Cli = js["Terminal"]
-UserData = js["developerData"]
-version = js["Version"]
 
 AR = Apprun()
 AR0 = CodeRunner()
@@ -53,10 +44,11 @@ AR0 = CodeRunner()
 # App Functions Class
 class AppRunner():
     # Save Data Window And Insert FileName In DataBase
-    def saveData(self):
+    @staticmethod
+    def saveData():
         kali = Tk()
         kali.geometry('200x100')
-        kali.configure(bg='black')
+        kali.configure(bg="black")
         kali.title(Title)
         kali.resizable(False, False)
         Label(kali, text='File Name', bg='yellow', fg='green').pack()
@@ -70,14 +62,17 @@ class AppRunner():
             try:
                 global fileN, codeData
                 fileN = fileName.get()
-                os.system(f'touch {fileN}')
+                system(f'touch {fileN}')
                 codeData = EnterText.get(1.0, END)
+
                 with open(f'{fileN}', 'w') as f:
                     print(f.write(codeData))
                     f.close()
-                os.system(f'mv {fileN} {Path}')
+
+                system(f'mv {fileN} {Path}')
+
                 try:
-                    with open(f"src/doc/Filename.txt", "w") as f:
+                    with open(Path[2], "w") as f:
                         f.write(fileN)
                         f.close()
                 except(Exception):
@@ -96,29 +91,33 @@ class AppRunner():
             except(Exception):
                 print("File Not Found")
 
-        bt1 = Button(kali, borderwidth=0, text='Save File',
-                     bg='black', fg='red', activebackground='lime', command=bt)
+        bt1 = Button(kali, borderwidth=0, text='Save File', bg='black', fg='red', activebackground='lime', command=bt)
         bt1.pack(side=BOTTOM)
 
         kali.mainloop()
 
     # Encrypt File Data
-    def encrypt(self):
+    @staticmethod
+    def encrypt():
         AR.enc(Path, fileN, fileN)
 
     # Decrypt File Data
-    def decrypt(self):
+    @staticmethod
+    def decrypt():
         AR.dec(Path, fileN, fileN)
 
     # Clear Inputed Data
-    def clearData(self):
+    @staticmethod
+    def clearData():
         EnterText.delete(1.0, END)
 
     # Open Your Terminal
-    def terminal(self):
-        os.system(f'cd {Path} && {Cli}')
+    @staticmethod
+    def terminal():
+        system(f'cd {Path} && {Cli}')
 
-    def help(self):
+    @staticmethod
+    def help():
         window2 = Tk()
         window2.geometry('300x100')
         window2.title(Title)
@@ -128,18 +127,19 @@ class AppRunner():
         window2.mainloop()
 
     # Save File Data
-
-    def saveFile(self):
+    @staticmethod
+    def saveFile():
         try:
             codeDataTwo = EnterText.get(1.0, END)
             with open(f'{fileN}', 'w') as f:
                 print(f.write(codeDataTwo))
                 f.close()
-            os.system(f"mv {fileN} {Path}")
+            system(f"mv {fileN} {Path}")
         except(Exception):
             pass
-
-    def AppJson(self):
+    
+    @staticmethod
+    def Appapion():
         window4 = Tk()
         window4.geometry('500x500')
         window4.configure(bg=Background)
@@ -147,21 +147,21 @@ class AppRunner():
         window4.resizable(False, False)
         
         try:
-            with open('src/json/api.json', 'r') as f:
+            with open(Path[1], 'r') as f:
                 global rd
                 rd = f.read()
                 f.close()
         except(Exception):
             pass
 
-        t = Text(window4, bg=Background, fg=FontColor, font=(Font, FontSize), inactiveselectbackground='green', insertbackground='green', selectbackground='yellow')
+        t = Text(window4, bg=Background, fg=FontColor, font=(Font, FontSize), inactiveselectbackground='green', insertbackground='green', selectbackground='')
         t.pack()
         t.insert(0.1, rd)
 
         def saveChanges():
             code = t.get(0.1, END)
             try:
-                with open('src/json/api.json', 'w') as f:
+                with open(Path[1], 'w') as f:
                     print(f.write(code))
                     f.close()
             except(Exception):
@@ -175,14 +175,14 @@ class AppRunner():
 
 
     # Open File In App
-    def ope(self):
+    @staticmethod
+    def ope():
         window3 = Tk()
         window3.geometry('200x100')
         window3.configure(bg='black')
         window3.title(Title)
         window3.resizable(False, False)
-        Label(window3, text='Enter file path',
-              background='yellow', fg='red').pack()
+        Label(window3, text='Enter file path', background='yellow', fg='red').pack()
         e1 = Entry(window3)
         e1.pack()
 
@@ -195,33 +195,34 @@ class AppRunner():
                     fdata = re.read()
                     re.close()
                 EnterText.insert(0.1, fdata)
-                os.system(f'cp {e} {Path}')
+                system(f'cp {e} {Path}')
                 window3.destroy()
             except(Exception):
                 print("File Not Found")
 
-        b = Button(window3, borderwidth=0, text='Summit', bg='black',
-                   fg='red', activebackground='lime', command=pat)
+        b = Button(window3, borderwidth=0, text='Summit', bg='black', fg='red', activebackground='lime', command=pat)
         b.pack(side=BOTTOM)
 
         window3.mainloop()
 
     # Make Qrcode With Random Name
-    def qr(self):
+    @staticmethod
+    def qr():
         alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         num = '1234567890'
         lenght = 6
         all = num+alpha
         try:
-            fname = ''.join(random.sample(all, lenght))
+            fname = ''.join(sample(all, lenght))
             textdata = EnterText.get(1.0, END)
             AR.makeqr(textdata, fname)
-            os.system(f'mv {fname}.png {Path}')
+            system(f'mv {fname}.png {Path}')
         except(Exception):
             print(f"Qr Not Make")
 
     #reade the file data
-    def fileData(self):
+    @staticmethod
+    def fileData():
         window1 = Tk()
         window1.geometry('1000x550')
         window1.title(Title)
@@ -253,11 +254,12 @@ Ar1 = AppRunner()
 
 class code(Tk):
     # Start Make App Form This Function
-    def App(self):
+    @staticmethod
+    def App():
         # input text or code data in App
         global EnterText
         EnterText = Text(width=500, borderwidth=0, height=500, bg=Background, fg=FontColor, font=(
-            Font, FontSize), insertbackground=FontColor, selectbackground="yellow", selectforeground="red")
+            Font, FontSize), insertbackground=FontColor, selectbackground="gray", selectforeground="black")
         EnterText.pack()
 
         mainloop()
@@ -309,24 +311,20 @@ m4 = Menu(MainMenu, bg=Background, borderwidth=0,
 MainMenu.add_cascade(label="Date", menu=m4)
 m4.add_command(label=Date)
 
-MainMenu.add_command(label="App Json", command=Ar1.AppJson)
+MainMenu.add_command(label="App apion", command=Ar1.Appapion)
 MainMenu.add_command(label="About!", command=Ar1.help)
 Ap.config(menu=MainMenu)
 
 # App Logo
 try:
-    icon = PhotoImage(file="src/icon/ico2.png")
+    icon = PhotoImage(file=Path[3])
     Ap.iconphoto(False, icon)
     print("icon is set")
 except(Exception):
-    try:
-        icon = PhotoImage(file="icon/ico2.png")
-        Ap.iconphoto(False, icon)
-        print("icon is set")
-    except(Exception):
-        print("Icon Not Found")
+    print(Fore.RED, "Icon Not Found", Fore.WHITE)
+
 print("all system is working")
 
 # Start App
 Ap.App()
-os.system("clear")
+system("clear")

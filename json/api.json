@@ -1,11 +1,17 @@
 {
-    "AppName": "Hackers_Code_Editor",
+    "AppName": "SiliconCodeEditor",
     "Version": "2021.4",
-    "Path": "/home/kali/Desktop/",
+    "Update":"2025.2",
+    "Path": [
+        "database/Appdata.db",
+        "json/api.json",
+        "doc/Filename.txt",
+        "icon/ico1.png"
+    ],
     "FontColor": "lime",
     "Background": "black",
     "Resizable": "True",
-    "Title": "Silicon Programmer",
+    "Title": "SiliconBrains",
     "Font": "hack",
     "FontSize": 12,
     "developerData": {
@@ -19,5 +25,3 @@
     },
     "Terminal": "qterminal"
 }
-
-
