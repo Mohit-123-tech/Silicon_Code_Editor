@@ -44,7 +44,8 @@ AR0 = CodeRunner()
 # App Functions Class
 class AppRunner():
     # Save Data Window And Insert FileName In DataBase
-    def saveData(self):
+    @staticmethod
+    def saveData():
         kali = Tk()
         kali.geometry('200x100')
         kali.configure(bg="black")
@@ -96,22 +97,27 @@ class AppRunner():
         kali.mainloop()
 
     # Encrypt File Data
-    def encrypt(self):
+    @staticmethod
+    def encrypt():
         AR.enc(Path, fileN, fileN)
 
     # Decrypt File Data
-    def decrypt(self):
+    @staticmethod
+    def decrypt():
         AR.dec(Path, fileN, fileN)
 
     # Clear Inputed Data
-    def clearData(self):
+    @staticmethod
+    def clearData():
         EnterText.delete(1.0, END)
 
     # Open Your Terminal
-    def terminal(self):
+    @staticmethod
+    def terminal():
         system(f'cd {Path} && {Cli}')
 
-    def help(self):
+    @staticmethod
+    def help():
         window2 = Tk()
         window2.geometry('300x100')
         window2.title(Title)
@@ -121,8 +127,8 @@ class AppRunner():
         window2.mainloop()
 
     # Save File Data
-
-    def saveFile(self):
+    @staticmethod
+    def saveFile():
         try:
             codeDataTwo = EnterText.get(1.0, END)
             with open(f'{fileN}', 'w') as f:
@@ -131,8 +137,9 @@ class AppRunner():
             system(f"mv {fileN} {Path}")
         except(Exception):
             pass
-
-    def Appapion(self):
+    
+    @staticmethod
+    def Appapion():
         window4 = Tk()
         window4.geometry('500x500')
         window4.configure(bg=Background)
@@ -168,7 +175,8 @@ class AppRunner():
 
 
     # Open File In App
-    def ope(self):
+    @staticmethod
+    def ope():
         window3 = Tk()
         window3.geometry('200x100')
         window3.configure(bg='black')
@@ -198,7 +206,8 @@ class AppRunner():
         window3.mainloop()
 
     # Make Qrcode With Random Name
-    def qr(self):
+    @staticmethod
+    def qr():
         alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         num = '1234567890'
         lenght = 6
@@ -212,7 +221,8 @@ class AppRunner():
             print(f"Qr Not Make")
 
     #reade the file data
-    def fileData(self):
+    @staticmethod
+    def fileData():
         window1 = Tk()
         window1.geometry('1000x550')
         window1.title(Title)
@@ -244,7 +254,8 @@ Ar1 = AppRunner()
 
 class code(Tk):
     # Start Make App Form This Function
-    def App(self):
+    @staticmethod
+    def App():
         # input text or code data in App
         global EnterText
         EnterText = Text(width=500, borderwidth=0, height=500, bg=Background, fg=FontColor, font=(
